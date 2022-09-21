@@ -8,10 +8,26 @@ import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.MemoryMemberRepository;
 
 public class MemberService { // service같은 경우에는 비지니스에 해당하기 때문에 naming을 할때 직관적으로 하는게 좋다
+	/*
+	 이클립스 같은 경우에는 moreunit플러그인을 다운받으면 테스트를 편리하게 진행할수 있다
+	 단축키
+	  - ctrl + j는 클래스의 테스트 클래스를 만들어준다
+	  - ctrl + r은 테스트 run
+	  - ctrl + alt + shift + r은 현재 위치한 유닛테스트만 실행
+	 */
+//	private final MemberRepository  memberRepository = new MemoryMemberRepository(); new를 통해 객체를 생성하면 테스트와 서로 다른 객체를 생성하기 떄문에 생성자를 통해 만드는것이 좋다 
+	
 
-	private final MemberRepository  memberRepository = new MemoryMemberRepository();
+	private final MemberRepository  memberRepository;
 	
 	
+	
+	
+	public MemberService(MemberRepository memberRepository) {
+		this.memberRepository = memberRepository; //의존성 주입(dependency injection)
+	}
+
+
 	/**
 	 회원가입
 	 */
