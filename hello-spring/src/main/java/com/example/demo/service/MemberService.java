@@ -3,10 +3,15 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.MemoryMemberRepository;
 
+//Service에서 비즈니스 로직을 만든다
+//@Service
 public class MemberService { // service같은 경우에는 비지니스에 해당하기 때문에 naming을 할때 직관적으로 하는게 좋다
 	/*
 	 이클립스 같은 경우에는 moreunit플러그인을 다운받으면 테스트를 편리하게 진행할수 있다
@@ -22,7 +27,7 @@ public class MemberService { // service같은 경우에는 비지니스에 해�
 	
 	
 	
-	
+	@Autowired
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository; //의존성 주입(dependency injection)
 	}

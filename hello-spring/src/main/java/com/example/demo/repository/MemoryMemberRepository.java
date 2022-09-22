@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.example.demo.domain.Member;
 
+//Repository에서 data를 저장한다
+//@Repository
 public class MemoryMemberRepository implements MemberRepository {
 
 	private static Map<Long, Member> store = new HashMap<>(); // 실무에서는 동시성 문제가 있어서 공유되는 변수는 ConcurrentHashMap을 사용한다
