@@ -1,9 +1,15 @@
 package com.example.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.demo.domain.Member;
+import com.example.demo.domain.MemberForm;
 import com.example.demo.service.MemberService;
 
 //Controller를 통해서 외부 요청을 받는다
@@ -16,6 +22,29 @@ public class MemberController {
 	@Autowired
 	public MemberController(MemberService memberService) {
 		this.memberService = memberService;
+	}
+	
+	@GetMapping("/members/new") //get방식은 주로 조회할때 사용(url의 직접 입력하는 방식)
+	public String createForm() {
+		return "members/createMemberForm";
+	}
+	
+	@PostMapping("/members/new") //post방식은 data를 form같은 곳에 넣어서 전달할때 사용한다
+	public String create(MemberForm form) {
+		Member member = new Member();
+		member.setName(form.getName());
+		
+		memberService.join(member);
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/members")
+	public String list(Model model) {
+		List<Member> members = memberService.findMembers();
+		model.addAttribute("members", members);
+		
+		return "members/memberlist";
 	}
 	
 	
