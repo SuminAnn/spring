@@ -6,30 +6,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Member;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.MemoryMemberRepository;
 
-@SpringBootTest
-@Transactional
+@SpringBootTest // 스프링 컨테이너와 테스트를 함께 실행한다
+@Transactional // TEST 시작 전에 트랜잭션을 시작하고 TEST후에 rollback을 통해서 DB에 반영이 안되게하는 어노테이션(TEST를 반복적으로 가능하도록, 다음 테스트에 여향을 주지 않는다)
 public class MemberServiceIntegrationTest {
 	
-	MemberService memberservice;
-	MemoryMemberRepository memberRepository;
+	@Autowired MemberService memberservice;
+	@Autowired MemberRepository memberRepository; //테스트 같은 경우에는 가장 끝단이기 때문에 편리한 방법으로 실행하는것이 좋다
 	
-	@BeforeEach
-	public void beforeEach() {
-		memberRepository = new MemoryMemberRepository();
-		memberservice = new MemberService(memberRepository); // 테스트를 실행할때 마다 각각 생성해주므로 독립적인 테스트가 가능해진다
-	}
 	
-	@AfterEach
-	public void afterEach() {
-		memberRepository.clearStroe();
-	} //test가 하나 끝날때마다 데이터를 비워주는 메서드, 의존관계를 없애주기 위해서
-
 	@Test
 	void testJoin() {
 		//given
@@ -46,7 +38,7 @@ public class MemberServiceIntegrationTest {
 	}
 	
 	@Test
-	public void 중복_회원_예외() {
+	public void 중복_회원_예외() throws Exception {
 		//given
 		Member member1 = new Member();
 		member1.setName("spring");
@@ -56,17 +48,13 @@ public class MemberServiceIntegrationTest {
 		
 		//when
 		memberservice.join(member1);
-		assertThrows(IllegalStateException.class, () -> memberservice.join(member2)); //try catch문을 통해 예외를 test하지 않고 assertThrows를 통해 바로 테스트가 가능하다
+		IllegalStateException e = assertThrows(IllegalStateException.class,() -> memberservice.join(member2)); // 예외가 발생해야 한다.
 		
-//		try {
-//			memberservice.join(member2);
-//			fail();
-//		}catch(IllegalStateException e) {
-//			assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
-//		}
+		
 	
 		
 		//then
+		assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다.");
 	}
 
 	@Test
@@ -79,4 +67,4 @@ public class MemberServiceIntegrationTest {
 		
 	}
 
-}
+} // 가급적이면 통합테스트보다 순수한 단위테스트가 훨씬 좋은 테스트일 경우가 높다(스프링 컨테이너 없이 테스트)
