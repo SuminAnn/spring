@@ -3,8 +3,6 @@ package com.example.demo.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.MemoryMemberRepository;
 
 @SpringBootTest // 스프링 컨테이너와 테스트를 함께 실행한다
 @Transactional // TEST 시작 전에 트랜잭션을 시작하고 TEST후에 rollback을 통해서 DB에 반영이 안되게하는 어노테이션(TEST를 반복적으로 가능하도록, 다음 테스트에 여향을 주지 않는다)
