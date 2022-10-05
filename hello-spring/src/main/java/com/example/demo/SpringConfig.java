@@ -1,22 +1,32 @@
 package com.example.demo;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.repository.JdbcMemberRepository;
 import com.example.demo.repository.JdbcTemplateMemberRepository;
+import com.example.demo.repository.JpaMemberRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.MemberService;
 
 @Configuration
 public class SpringConfig {
 	
-	private final DataSource dataSource;
+//	private final DataSource dataSource;
+//	
+//	public SpringConfig(DataSource dataSource) {
+//		this.dataSource = dataSource;
+//	}
 	
-	public SpringConfig(DataSource dataSource) {
-		this.dataSource = dataSource;
+	private EntityManager em;
+	
+	@Autowired
+	public SpringConfig(EntityManager em) {
+		this.em = em;
 	}
 
 	@Bean
@@ -30,6 +40,7 @@ public class SpringConfig {
 //		return new JdbcMemberRepository(dataSource); // interface 구현체를 바꾸면서 기존 코드를 변경하지 않고 변경할수 있는 점이 객체지향 언어의 장점이다
 		// interface를 두고 구현체를 변경을 통해 디형성을 활용 (spring contatiner가 지원을 해준다)
 		
-		return new JdbcTemplateMemberRepository(dataSource);
+//		return new JdbcTemplateMemberRepository(dataSource);
+		return new JpaMemberRepository(em);
 	}
 }
