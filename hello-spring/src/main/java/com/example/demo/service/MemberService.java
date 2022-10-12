@@ -62,4 +62,18 @@ public class MemberService { // service같은 경우에는 비지니스에 해�
 	public Optional<Member> findOne(Long memberId){
 		return memberRepository.findById(memberId);
 	}
+	
+	
+	/*
+	 AOP(Aspect Oriented Programming)
+	 AOP가 필요한 상황
+	  - 모든 메소드의 호출 시간을 측정하고 싶을때
+	   - 시간을 측정하는 기능은 핵심 관심 사항이 아니다
+	   - 시간을 측정하는 로직은 공통 관심 사항이다
+	   - 시간을 측정하는 로직과 핵심 비즈니스의 로직이 섞여서 유지보수가 어렵다
+	   - 시간을 측정하는 로직을 별도의 공통 로직으로 만들기 매우 어렵다
+	   - 시간을 측정하는 로직을 변경 할 때 모든 로직을 찾아가면서 변경해야 한다
+	   
+	  - 공통 관심사항(cross-cutting concern)과 핵심 관심 사항(core concern)울 분리
+	 */
 }
