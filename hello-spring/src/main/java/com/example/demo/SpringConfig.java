@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.demo.aop.TimeTraceAop;
 import com.example.demo.repository.JdbcMemberRepository;
 import com.example.demo.repository.JdbcTemplateMemberRepository;
 import com.example.demo.repository.JpaMemberRepository;
@@ -41,6 +42,11 @@ public class SpringConfig {
 		return new MemberService(memberRepository); // memberSerive와 의존관계 등록
 	}
 	
+	
+//	@Bean
+//	public TimeTraceAop timeTraceAop() {
+//		return new TimeTraceAop();
+//	} // Bean으로 등록해줘도 가능하고 @Component scan을 사용해도 된다 -> AOP같은 경우에는 Bean으로 등록해주는것이 좋다
 	
 
 
